@@ -1,0 +1,65 @@
+[
+    {
+    "nome": "chuva",
+    "imagem": "chuva.png",
+    "pesosMinimos": [10, -20, -20],
+    "pesosMaximos": [20, -10, -10],
+    "classe": "natureza"
+    },
+    {
+    "nome": "epidemia",
+    "imagem": "epidemia.png",
+    "pesosMinimos": [5, -10, -10],
+    "pesosMaximos": [10, -5, -5],
+    "classe": "natureza"
+    },
+    {
+    "nome": "agricultura",
+    "imagem": "agricultura.png",
+    "pesosMinimos": [-20, 10, 10],
+    "pesosMaximos": [-10, 20, 20],
+    "classe": "natureza"
+    },
+    {
+    "nome": "egoísmo",
+    "imagem": "egoismo.png",
+    "pesosMinimos": [-20, 10, -20],
+    "pesosMaximos": [-10, 20, -10],
+    "classe": "emoção"
+    },
+    {
+    "nome": "Esperança",
+    "imagem": "esperanca.png",
+    "pesosMinimos": [-10, 5, -10],
+    "pesosMaximos": [-5, 10, -5],
+    "classe": "emoção"
+    },
+    {
+    "nome": "Abnegação",
+    "imagem": "abnegação.png",
+    "pesosMinimos": [10, -20, 10],
+    "pesosMaximos": [20, -10, 20],
+    "classe": "emoção"
+    },
+    {
+    "nome": "globalização",
+    "imagem": "globalização.png",
+    "pesosMinimos": [-20, -20, 10],
+    "pesosMaximos": [-10, -10, 20],
+    "classe": "sociedade"
+    },
+    {
+    "nome": "desmatamento",
+    "imagem": "desmatamento.png",
+    "pesosMinimos": [-10, -10, 5],
+    "pesosMaximos": [-5, -5, 10],
+    "classe": "sociedade"
+    },
+    {
+    "nome": "Ecologismo",
+    "imagem": "ecologismo.png",
+    "pesosMinimos": [10, 10, -20],
+    "pesosMaximos": [20, 20, -10],
+    "classe": "sociedade"
+    }
+]

@@ -1,0 +1,19 @@
+.menu{
+    width: 600px;
+    height: 100px;
+    text-align: center;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50%;
+}
+
+.button{
+    padding: 10px;
+    margin: 10px;
+    width: 600px;
+    height: 200px;
+    font-size: 100px;
+    border-radius: 50px;
+    border: solid;
+}

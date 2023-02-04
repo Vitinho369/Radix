@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <h1>Socket.io</h1>
+    <div id="msgs"></div>
+    <input type="text">
+    <br>
+    <div id="canvas"></div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+            const socket = io();
+           
+           socket.on('connect', function(){
+               $("#msgs").append("connected with id: " + socket.id + "<br>")
+   
+               socket.emit("msg", "I am connected " + socket.id);
+           });
+   
+           socket.on('msg', function(msg){
+               $("#msgs").append(msg+"<br>");
+           });
+          
+           socket.on("cenario", (cenario)=>{
+                if(cenario == 0){
+                    document.getElementById("canvas").style.backgroundColor = "red";
+                    document.getElementById("canvas").style.fill = "red";
+                    document.getElementById("canvas").style.width = "100px";
+                    document.getElementById("canvas").style.height = "100px";
+                }
+                if(cenario == 1){
+                    document.getElementById("canvas").style.backgroundColor = "blue";
+                    document.getElementById("canvas").style.fill = "red";
+                    document.getElementById("canvas").style.width = "100px";
+                    document.getElementById("canvas").style.height = "100px";
+                }
+                if(cenario == 2){
+                    document.getElementById("canvas").style.backgroundColor = "green";
+                    document.getElementById("canvas").style.fill = "red";
+                    document.getElementById("canvas").style.width = "100px";
+                    document.getElementById("canvas").style.height = "100px";
+                }
+           });
+          
+           $(function(){
+               $("input").keydown(function(key){
+                      
+                       if(key.keyCode === 13){
+                           socket.emit('msg', $(this).val());
+                           $(this).val("");
+                       }
+               });
+           });
+    </script>
+</body>
+</html>
