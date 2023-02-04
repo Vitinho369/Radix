@@ -6,7 +6,7 @@ var rl = readline.createInterface({
 });
 
   
-const domain = require('./domain/domain');
+const domain = require('./game/domain/domain');
 
 console.log('RADIX - Jogo de cartas');
 
@@ -23,10 +23,10 @@ while(!domain.fimDeJogo()){
         console.log('   ' + cartas[i].pesos[0] + ' ' + cartas[i].pesos[1] + ' ' + cartas[i].pesos[2]);
     }
     
-    readline.question("Escolha sua carta: ", (input) => {
-        domain.jogarCarta(cartas[input])
-        console.log('Você jogou a carta ' + cartas[input].nome);
-    });
+    // readline.question("Escolha sua carta: ", (input) => {
+    //     domain.jogarCarta(cartas[input])
+    //     console.log('Você jogou a carta ' + cartas[input].nome);
+    // });
 
         
     let jogadores = domain.getJogadores();

@@ -1,3 +1,5 @@
+// const { Domain } = require('domain');
+
 // Configurações do jogo
 escala = 60;
 
@@ -10,7 +12,8 @@ let classes = ['natureza', 'emoção', 'sociedade'];
 let classeAtual = 0;
 
 
-const Card = require('./card').Card;
+// const Card = require('./game/domain/card').Card;
+
 
 module.exports = {
     iniciarPartida: function() {
@@ -64,7 +67,7 @@ module.exports = {
 function carregarDeck(){
     deck = [];
     let fs = require('fs');
-    let cartas = JSON.parse(fs.readFileSync('domain/deck.json', 'utf8'));
+    let cartas = JSON.parse(fs.readFileSync('./game/domain/deck.json', 'utf8'));
     cartas.forEach(function(item, index){
         deck.push(new Card(index, item.nome, item.classe, item.imagem, item.pesosMinimos, item.pesosMaximos));
     });
