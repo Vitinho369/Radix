@@ -13,5 +13,6 @@
 				"GitHub.copilot"
 			]
 		}
-	}
+	},
+	"postStartCommand": "node server.js"
 }
