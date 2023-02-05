@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname+'/index.html');
 });
 
-let cenario = 1;
+let cenario = 0;
 
 const state = {};
 const clientsRooms = [];
@@ -39,14 +39,13 @@ io.on("connect", socket => {
     socket.on('joinGame', handleJoinGame);
 
     function handleJoinGame(roomName) {
-  
-
+   
       if(clientsRooms.includes(roomName)){
 
 
         if(!userRoom[roomName]){
           userRoom[roomName] = 1;
-        }else{
+        }else if(userRoom[roomName] <= 2){
           userRoom[roomName]++;
         }
 
@@ -55,7 +54,8 @@ io.on("connect", socket => {
       if(userRoom[roomName]  < 4){
         socket.join(roomName);
 
-        console.log(userRoom[roomName])
+        console.log(userRoom[roomName]);
+        cenario = userRoom[roomName];
         socket.emit("salaEstado", "oi");
       }else{
         socket.emit("salaEstado", -1);
