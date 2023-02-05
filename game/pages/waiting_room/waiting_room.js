@@ -44,6 +44,9 @@ function acessarLink() {
             var namePage = url.pop();
             url += '/game/pages/playerRoom.html';
             window.location.href = url + "?code=" + code;
+            
+            //SOCKET PARA INICIAR O JOGO NO DOMAIN NAQUELA SALA (DOMAIN POR SALAS)
+
             acheiSala = true;
             console.log("entrei na sala:");
         });

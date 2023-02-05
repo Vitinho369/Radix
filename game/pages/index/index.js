@@ -3,7 +3,6 @@ playButton = null;
 options = [];
 
 loading = null;
-navigationBar = null;
 
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
@@ -12,7 +11,6 @@ function setup() {
     logo = loadImage('../../../resources/ui/logo.png');
 
     loading = new Loading(width / 2, height / 2);
-    navigationBar = new NavigationBar();
 
     playButton = new Button(width / 2, height / 2, width * 0.5, width * 0.5, loadImage('../../../resources/ui/play.png'), function () { window.location.href = "/lobby"; });
 
@@ -54,13 +52,10 @@ function draw() {
     //loading.show();
 
     //mostra a barra inferior com as opções
-    navigationBar.show();
-
     playButton.show();
 }
 
 function mousePressed() {
-    navigationBar.mousePressed();
     playButton.mousePressed();
 }
 

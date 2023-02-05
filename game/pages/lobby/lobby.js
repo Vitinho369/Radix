@@ -34,6 +34,14 @@ function draw() {
     navigationBar.show();
 
     playButton.show();
+
+
+    textFont('Poppins');
+    textStyle(BOLD);
+    textAlign(CENTER);
+    fill(0,0,0,100);
+
+    text("O código da partida é", width/2, height-200);
 }
 
 function mousePressed() {
@@ -83,37 +91,6 @@ class Button {
     mousePressed() {
         if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
             this.function();
-        }
-    }
-}
-
-class NavigationBar {
-    constructor() {
-        this.width = windowWidth;
-        this.height = windowHeight;
-        this.x = 0;
-        this.y = windowHeight - 100;
-        this.option = 0;
-        this.showing = false;
-    }
-
-    show() {
-        if (!this.showing) {
-            fill(0);
-            rect(this.x, this.y, this.width, this.height - this.y);
-            image(options[this.option], this.x, this.y, this.width, this.height - this.y);
-        } else {
-            //preenche a tela toda com um retângulo preto e um botão no centro superior dele para decer a barra 
-            fill(0);
-            rect(this.x, this.y, this.width, this.height - this.y);
-            image(options[this.option], this.x, this.y, this.width, this.height - this.y);
-
-        }
-    }
-
-    mousePressed() {
-        if (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height) {
-            this.showing = true;
         }
     }
 }
