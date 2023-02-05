@@ -22,18 +22,11 @@ socket.on("salaEstado", (estado)=>{
  var qtdPessoas = document.getElementById("qtdPessoas");
 
  
- setInterval(function () {
      socket.on('cenario', (qtd) => {
-         qtdUsers = qtd;
+        qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtd;
+         if(qtd == 3){
+            setTimeout(function(){
+                window.location.href = "/game" + "?code=" + codeRoom;
+            }, 1000);
+        }
      });
-     qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
- }, 1);
-    
-
- socket.on('startGame', (isStartGame) => {
-    alert(isStartGame);
-    // if(isStartGame){
-    //     window.location.href = "/game";
-    // }
-});
-

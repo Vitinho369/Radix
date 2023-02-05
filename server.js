@@ -71,7 +71,9 @@ io.on("connect", socket => {
 
   
     if(userRoom[roomName] == 3){
-        socket.to(roomName).emit('startGame', true); 
+      setTimeout(function(){
+        socket.to(roomName).emit('startGame', true);
+      },1000);
     }
 
     socket.on('disconnect', () => {
@@ -85,9 +87,8 @@ io.on("connect", socket => {
             socket.to(roomName).emit('cenario', 0); 
       });
 
-      setInterval(function(){
-        socket.emit('cenario', cenario);
-      }, 100);
+     
+    
     }
 
     function handleNewGame(){
@@ -100,6 +101,10 @@ io.on("connect", socket => {
     }
 
     socket.emit('arraySalas', clientsRooms);
+
+      setInterval(function(){
+        socket.emit('cenario', cenario);
+      }, 100);
 });
 
 

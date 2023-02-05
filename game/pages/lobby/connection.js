@@ -3,6 +3,7 @@ const socket = io();
 
 socket.emit("newGame");
 
+
 var codeRoom = 0;
 
 socket.on("gameCode", (code) => {
@@ -24,9 +25,10 @@ socket.on("gameCode", (code) => {
         document.execCommand("copy");
         document.body.removeChild(tempInput);
     });
+
+    
+    socket.emit("joinGame", code);
 });
-
-
 //Acessar sala
 var arraySalas1 = [];
 socket.on("arraySalas", (arraySalas) => {
@@ -65,13 +67,14 @@ var qtdPessoas = document.getElementById("qtdPessoas");
 setInterval(function () {
     socket.on("cenario", (qtd) => {
         qtdUsers = qtd;
+        
     });
     qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
 }, 1);
 
-socket.on('startGame', (isStartGame) => {
-    alert(isStartGame);
-    // if(isStartGame){
-    //     window.location.href = "/game";
-    // }
+socket.on('startGame', () => {
+    
+    setTimeout(function(){
+         window.location.href = "/game";
+        }, 1000);
 });
