@@ -1,4 +1,4 @@
-// const { Domain } = require('domain');
+//const { Domain } = require('domain');
 
 // Configurações do jogo
 escala = 60;
@@ -12,7 +12,7 @@ let classes = ['natureza', 'emoção', 'sociedade'];
 let classeAtual = 0;
 
 
-// const Card = require('./game/domain/card').Card;
+const Card = require('./card').Card;
 
 
 module.exports = {
@@ -27,8 +27,6 @@ module.exports = {
 
     getCartas: function() {
         let cartas = [];
-        
-        
         let cartasClasse = deck.filter(item => item.classe.includes(classes[classeAtual]));
 
         for(let i = 0; i < 3; i++){

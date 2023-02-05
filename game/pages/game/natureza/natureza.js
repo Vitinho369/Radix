@@ -31,7 +31,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(0.65 + offset));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -39,7 +39,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(0.75 + offset2));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -47,7 +47,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(0.7 + offset3));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -55,7 +55,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(0.8 + offset4));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -63,7 +63,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(0.9 + offset5));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -71,7 +71,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(1+offset6));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
 
@@ -79,7 +79,7 @@ class Natureza{
         push();
         translate(x, y);
         rotate(PI/(1.1 + offset7));
-        console.log(map(mouseX, 0, width, 0, 10));
+        // console.log(map(mouseX, 0, width, 0, 10));
         image(this.folha, 0, 0, this.folha.width/2, this.folha.height/2);
         pop();
         }

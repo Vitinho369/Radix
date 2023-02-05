@@ -4,7 +4,7 @@ const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
 const port = process.env.PORT || 3000;
-
+const domain = require('./game/domain/domain');
 app.use(express.static(__dirname + "/"));
 
 app.get('/', (req, res) => {
@@ -42,6 +42,7 @@ function makeid(length) {
 io.on("connect", socket => {
     socket.on('newGame', handleNewGame);
     socket.on('joinGame', handleJoinGame);
+    socket.on('cards', handleCards);
 
     function handleJoinGame(roomName) {
    
@@ -86,9 +87,13 @@ io.on("connect", socket => {
           else
             socket.to(roomName).emit('cenario', 0); 
       });
+          
+    }
 
-     
-    
+    function handleCards(room){
+      domain.iniciarPartida();
+      let cartas = domain.getCartas();
+      socket.emit('cards', cartas);
     }
 
     function handleNewGame(){

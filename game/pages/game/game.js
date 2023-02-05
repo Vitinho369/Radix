@@ -16,7 +16,7 @@ let type;
 
 function preload() {
   painel = loadImage('../../../resources/painel.png');
-  cenario = new Raiz();
+  cenario = new Natureza();
   loading = new Loading(width/2, height-200);
 
   song = loadSound('../../../resources/music.mp3');
@@ -25,7 +25,7 @@ function preload() {
   var url = window.location.href;
   var urlArray = url.split("=");
   code = urlArray[1];
-
+  console.log(code);
 
   //se comunica ao servidor para pegar as cartas (se receber empty, não é a vez dele)
   loadCards();
@@ -34,20 +34,24 @@ function preload() {
 
 function loadCards(){
   //carrega as cartas
-  socket.to(code).emit('cards', socket.id);
-  socket.on('cards', (cards) => {
-    if(cards != "empty"){
-      for(let i = 0; i < cards.length; i++){
-        cards[i] = new Carta(cards[i]);
+
+    socket.emit('cards',code);
+  
+    socket.on('cards', (cards) => {
+      console.log(cards);
+      if(cards != "empty"){
+        for(let i = 0; i < cards.length; i++){
+          cards[i] = new Card(loadImage(cards[i]['imagem']), cards[i]['index'], cards[i]);
+        }
+        vezdejogar = true;
+      }else{      
+        vezdejogar = false;
       }
-      vezdejogar = true;
-    }else{      
-      vezdejogar = false;
-    }
-  });
-  socket.on('cenario', function(status){
-    cenario.status = status;
-  });
+    });
+    socket.on('cenario', function(status){
+      cenario.status = status;
+    });
+  
   cards = [
     new Card(loadImage('../../../resources/cards/card_ex.png'), 0, 0),
     new Card(loadImage('../../../resources/cards/card_ex.png'), 1, 1),

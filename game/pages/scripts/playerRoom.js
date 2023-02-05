@@ -13,4 +13,3 @@ socket.on("salaEstado", (estado)=>{
         console.log(estado);
     }
 })
-

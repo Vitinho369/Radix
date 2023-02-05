@@ -4,9 +4,10 @@ const socket = io();
 socket.emit("newGame");
 
 
+socket.on("gameCode", (code) => {
+    
 var codeRoom = 0;
 
-socket.on("gameCode", (code) => {
     document.getElementById("codePage").innerHTML = code;
     codeRoom = code;
     var url = window.location.pathname.split('index.html');
@@ -28,7 +29,7 @@ socket.on("gameCode", (code) => {
 
     
     socket.emit("joinGame", code);
-});
+
 //Acessar sala
 var arraySalas1 = [];
 socket.on("arraySalas", (arraySalas) => {
@@ -75,6 +76,8 @@ setInterval(function () {
 socket.on('startGame', () => {
     
     setTimeout(function(){
-         window.location.href = "/game";
+         window.location.href = "/game" + "?code=" + code;
         }, 1000);
+});
+
 });
