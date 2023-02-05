@@ -1,63 +1,63 @@
 [
     {
     "nome": "chuva",
-    "imagem": "chuva.png",
+    "imagem": "card_rain.png",
     "pesosMinimos": [10, -20, -20],
     "pesosMaximos": [20, -10, -10],
     "classe": "natureza"
     },
     {
     "nome": "epidemia",
-    "imagem": "epidemia.png",
+    "imagem": "card_epidemia.png",
     "pesosMinimos": [5, -10, -10],
     "pesosMaximos": [10, -5, -5],
-    "classe": "natureza"
+    "class e": "natureza"
     },
     {
     "nome": "agricultura",
-    "imagem": "agricultura.png",
+    "imagem": "card_agri.png",
     "pesosMinimos": [-20, 10, 10],
     "pesosMaximos": [-10, 20, 20],
     "classe": "natureza"
     },
     {
     "nome": "egoísmo",
-    "imagem": "egoismo.png",
+    "imagem": "card_egoismo.png",
     "pesosMinimos": [-20, 10, -20],
     "pesosMaximos": [-10, 20, -10],
     "classe": "emoção"
     },
     {
     "nome": "Esperança",
-    "imagem": "esperanca.png",
+    "imagem": "card_hope.png",
     "pesosMinimos": [-10, 5, -10],
     "pesosMaximos": [-5, 10, -5],
     "classe": "emoção"
     },
     {
     "nome": "Abnegação",
-    "imagem": "abnegação.png",
+    "imagem": "card_abnegação.png",
     "pesosMinimos": [10, -20, 10],
     "pesosMaximos": [20, -10, 20],
     "classe": "emoção"
     },
     {
     "nome": "globalização",
-    "imagem": "globalização.png",
+    "imagem": "globalismo_card.png",
     "pesosMinimos": [-20, -20, 10],
     "pesosMaximos": [-10, -10, 20],
     "classe": "sociedade"
     },
     {
     "nome": "desmatamento",
-    "imagem": "desmatamento.png",
+    "imagem": "card_desmatamento.png",
     "pesosMinimos": [-10, -10, 5],
     "pesosMaximos": [-5, -5, 10],
     "classe": "sociedade"
     },
     {
     "nome": "Ecologismo",
-    "imagem": "ecologismo.png",
+    "imagem": "card_ecologia.png",
     "pesosMinimos": [10, 10, -20],
     "pesosMaximos": [20, 20, -10],
     "classe": "sociedade"

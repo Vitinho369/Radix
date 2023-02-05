@@ -16,7 +16,7 @@ let type;
 
 function preload() {
   painel = loadImage('../../../resources/painel.png');
-  cenario = new Natureza();
+  cenario = new Raiz();
   loading = new Loading(width/2, height-200);
 
   song = loadSound('../../../resources/music.mp3');

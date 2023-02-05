@@ -1,17 +1,17 @@
 class Sociedade {
     constructor() {
         this.houses = [
-            [loadImage('../../../resources/emocao/sad_clothes.png'),
-            loadImage('../../../resources/emocao/clothes_neutro.png'),
-            loadImage('../../../resources/emocao/clothe_happy.png')],
+            [loadImage('../../../resources/sociedade/sad_city_v1.png'),
+            loadImage('../../../resources/sociedade/sad_city_v1.png'),
+            loadImage('../../../resources/sociedade/sad_city_v1.png')],
 
-            [loadImage('../../../resources/emocao/sad_clothes.png'),
-            loadImage('../../../resources/emocao/clothes_neutro.png'),
-            loadImage('../../../resources/emocao/clothe_happy.png')],
+            [loadImage('../../../resources/sociedade/casa_n_v1.png'),
+            loadImage('../../../resources/sociedade/casa_n_v2.png'),
+            loadImage('../../../resources/sociedade/casa_n_v3.png')],
 
-            [loadImage('../../../resources/emocao/sad_clothes.png'),
-            loadImage('../../../resources/emocao/clothes_neutro.png'),
-            loadImage('../../../resources/emocao/clothe_happy.png')],    
+            [loadImage('../../../resources/sociedade/happy_city_v1.png'),
+            loadImage('../../../resources/sociedade/happy_city_v2.png'),
+            loadImage('../../../resources/sociedade/happy_city_v3.png')],    
         ]
 
         this.casas = [];
@@ -24,15 +24,20 @@ class Sociedade {
 
         //gerar 10 casas aleatórias (a casa é uma posição x, y e o arquivo da house (dependendo do status))
         for (let i = 0; i < 10; i++) {
-            let x = random(0, width);
-            let y = random(0, height);
-            let house = this.houses[this.status][floor(random(0, 3))];
+            let x = random(width);
+            let y = random(height - 600);
+            console.log(x, y);
+            let house = this.houses[this.status][floor(Math.random() * 3)];
             this.casas.push([x, y, house]);
         }
     }
 
     show() {
-        //gera umas casas aleatórias dependendo 
+        //desenha as casas
+        for (let i = 0; i < this.casas.length; i++) {
+            image(this.casas[i][2], this.casas[i][0], this.casas[i][1], 500, 500);
+        }
+        
         
         
         //coloca o corpo do personagem (dependendo do status) no centro da tela
