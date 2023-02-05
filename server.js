@@ -8,7 +8,19 @@ const port = process.env.PORT || 3000;
 app.use(express.static(__dirname + "/"));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname+'/index.html');
+  res.sendFile(__dirname+'/game/pages/index/index.html');
+});
+
+app.get('/lobby', (req, res) => {
+  res.sendFile(__dirname+'/game/pages/lobby/lobby.html');
+});
+
+app.get('/waiting', (req, res) => {
+  res.sendFile(__dirname+'/game/pages/waiting_room/waiting_room.html');
+});
+
+app.get('/game', (req, res) => {
+  res.sendFile(__dirname+'/game/pages/game/game.html');
 });
 
 let cenario = 0;
@@ -53,7 +65,6 @@ io.on("connect", socket => {
 
       if(userRoom[roomName]  < 4){
         socket.join(roomName);
-
         console.log(userRoom[roomName]);
         cenario = userRoom[roomName];
         socket.emit("salaEstado", "oi");

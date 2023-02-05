@@ -1,0 +1,40 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="stylesheet" href="game/pages/index/index.css">
+</head>
+
+<body>
+  <div id="sketch-holder"></div>
+  <!--<img src="https://i.imgur.com/QQQQQQQ.png" alt="button" id="play_button" class="play_button">
+  
+  <div class="menu">
+    <input type="button" value="Entrar" class="button" onclick="navigate('lobby')">
+    <input type="button" value="Tutorial" class="button" onclick="navigate('info')">
+    <input type="button" value="Sobre nós" class="button" onclick="navigate('about_us')">
+  </div>
+  -->
+</body>
+
+<script>
+  button = document.getElementById("play_button");
+  button.onclick = function() {
+    window.location.href = 'lobby.html';
+  };
+  /* o botão deve ser centralizado na tela */
+  button.style.position = 'absolute';
+  button.style.top = '50%';
+  button.style.left = '50%';
+  button.style.transform = 'translate(-50%, -50%)';
+  button.style.width = '50%';
+  button.style.height = '50%';
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="game/scripts/util.js"></script>
+<script src="game/pages/index/index.js"></script>
+
+</html>
