@@ -11,11 +11,11 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname+'/index.html');
 });
 
-let cenario = 0;
-let ingressGame = false;
+let cenario = 1;
 
 const state = {};
-const clientsRooms = {};
+const clientsRooms = [];
+const userRoom = {};
 
 function makeid(length) {
   var result           = '';
@@ -39,62 +39,43 @@ io.on("connect", socket => {
     socket.on('joinGame', handleJoinGame);
 
     function handleJoinGame(roomName) {
-    //  const room = io.sockets.adapter.rooms[roomName];
   
-      // let allUsers;
-      // if (room) {
-      //   allUsers = room.sockets;
-      // }
-  
-      // let numClients = 0;
-      // if (allUsers) {
-      //   numClients = Object.keys(allUsers).length;
-      //   console.log(numClients);
-      // }
-  
-      // if (numClients === 0) {
-      //   socket.emit('unknownCode');
-      //   return;
-      // } else if (numClients > 2) {
-      //   socket.emit('tooManyPlayers');
-      //   return;
-      // // }
-  
-      // clientRooms[socket.id] = roomName;
-  
-      if(cenario  < 4){
+
+      if(clientsRooms.includes(roomName)){
+
+
+        if(!userRoom[roomName]){
+          userRoom[roomName] = 1;
+        }else{
+          userRoom[roomName]++;
+        }
+
+        socket.to(roomName).emit('cenario', userRoom[roomName]);
+
+      if(userRoom[roomName]  < 4){
         socket.join(roomName);
+
+        console.log(userRoom[roomName])
         socket.emit("salaEstado", "oi");
-        cenario++;
-        console.log(cenario);
       }else{
         socket.emit("salaEstado", -1);
         console.log("sala cheia");
       }
-      // socket.number = 2;
-      // socket.emit('init', 2);
+    }else{
+      console.log("Sala não existe");
+    }
+
     }
   
     function handleNewGame(){
       let roomName = makeid(5);
-       clientsRooms[socket.id] = roomName;
+       clientsRooms.push(roomName);
         socket.emit("gameCode", roomName);
-
         socket.join(roomName);
         socket.emit('cenario', cenario);
     }
 
-  socket.on("entrarJogo", (isGame)=>{
-    ingressGame = isGame;
-   
-  });
-
-  if(ingressGame && cenario < 3){
-    socket.emit("ingresso",cenario);
-    cenario++;
-  }else if( ingressGame){
-       socket.emit("ingresso", -1);
-   }
+    socket.emit('arraySalas', clientsRooms);
 
 });
 

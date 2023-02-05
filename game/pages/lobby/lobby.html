@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="resources/style/menu.css ">
+
+</head>
+
+<body>
+  <h1>O código da partida é: </h1>
+  <h2 id="codePage">
+    </h1>
+
+    <p id="qtdPessoas"></p>
+    <button id="linkPage">Copiar link de acesso à partida</button>
+    <br />
+    <a id="linkPage" href="#">Ou entre numa sala...</a>
+
+    <div id="popup"
+      style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 24px; border-radius: 4px;">
+      <h2>Digite o código da sala:</h2>
+      <input id="codegameinput" type="text" />
+      <br />
+      <button id="EnterGame" onclick="acessarLink()">Entrar</button>
+      <p class="errorMessage"></p>
+    </div>
+
+    <script>
+      const popup = document.querySelector('#popup');
+      const link = document.querySelector('a');
+
+      link.addEventListener('click', () => {
+        popup.style.display = 'block';
+      });
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      const socket = io();
+      socket.emit("newGame");
+      socket.on("gameCode", (code) => {
+        document.getElementById("codePage").innerHTML = code;
+        var url = window.location.pathname.split('index.html');
+        var namePage = url.pop();
+
+        namePage = window.location.href.split(namePage);
+        url += namePage[0] + '/game/pages/playerRoom.html';
+        url += "?code=" + code;
+
+        document.getElementById("linkPage").addEventListener("click", function () {
+
+          const tempInput = document.createElement("input");
+          tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+          tempInput.value = url;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+
+          alert("Link copiado com sucesso: " + link);
+        });
+      });
+    </script>
+
+    <script>
+      var arraySalas1 = [];
+      socket.on("arraySalas", (arraySalas) => {
+        arraySalas1 = arraySalas;
+
+      });
+
+      function acessarLink() {
+
+
+        var code = document.getElementById("codegameinput").value;
+        var acheiSala = false;
+
+        if (arraySalas1.includes(code)) {
+          document.getElementById("EnterGame").addEventListener("click", function () {
+            let code = document.getElementById("codegameinput").value;
+            socket.emit('joinGame', code);
+
+            var url = window.location.pathname.split('index.html');
+            var namePage = url.pop();
+            url += '/game/pages/playerRoom.html';
+            window.location.href = url + "?code=" + code;
+            acheiSala = true;
+            console.log("entrei na sala:");
+          });
+        }
+
+
+        if (acheiSala == false) {
+          document.querySelector('.errorMessage').innerHTML = "Sala não encontrada";
+        }
+
+      }
+
+    </script>
+
+    <script>
+      var qtdUsers = 0;
+      var qtdPessoas = document.getElementById("qtdPessoas");
+      socket.on("cenario", (qtd) => {
+          qtdUsers = qtd; 
+        });
+      setInterval(function () {
+
+        socket.on("cenario", (qtd) => {
+          qtdUsers = qtd; 
+        });
+        
+        console.log(qtdUsers);
+        qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
+
+      }, 500);
+     
+
+    </script>
+</body>
+
+</html>

@@ -1,26 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script>
-       <meta charset="utf-8" />
-    <link rel="stylesheet" href="/game/style/menu.css ">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <style>
+      #sketch-holder {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="resources/style/menu.css ">
   </head>
   <body>
+    <div id="sketch-holder"></div>
+    <script>
+      function setup() {
+        var canvas = createCanvas(windowWidth, windowHeight);
+        canvas.parent("sketch-holder");
+        // Seu código p5 aqui
+      }
+
+      function draw() {
+        // Seu código p5 aqui
+        background(100);
+      }
+    </script>
 
     <div class="menu">
-      <input type="button" value="Entrar" class="button" onclick="navigateGame()">
-      <input type="button" value="Tutorial" class="button" onclick="navigateTutorial()">
-      <input type="button" value="Sobre nós" class="button" onclick="navigateAboutUs()">
-
+      <input type="button" value="Entrar" class="button" onclick="navigate('lobby')">
+      <input type="button" value="Tutorial" class="button" onclick="navigate('info')">
+      <input type="button" value="Sobre nós" class="button" onclick="navigate('about_us')">
     </div>
-    <main>
 
-    </main>
-    <script src="/socket.io/socket.io.js"></script>
-    <!-- <script src="/graphics/index.js"></script> -->
-    <script src="p5.js"></script> 
-    <script src="/game/pages/button_navigate.js"></script>
-    
   </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game/scripts/util.js"></script>
+
 </html>
