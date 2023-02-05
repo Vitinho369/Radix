@@ -4,7 +4,7 @@ class Emocao {
     //cenário da emoção, vai ficar no fundo do jogo com o boneco do jogador
     constructor() {
         this.bodys = [
-            loadImage('../../../resources/characters/body1.png'),
+            loadImage('../resources/characters/body1.png'),
             
         ];
         this.status = 0;

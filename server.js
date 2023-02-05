@@ -39,14 +39,7 @@ function makeid(length) {
   return result;
 }
 
-
-
 io.on("connect", socket => {
-  // console.log("New connection: " + socket.id);
-  // socket.on('msg', (msg) =>{
-  //   console.log(msg);
-  // })
-
     socket.on('newGame', handleNewGame);
     socket.on('joinGame', handleJoinGame);
 
@@ -57,28 +50,48 @@ io.on("connect", socket => {
 
         if(!userRoom[roomName]){
           userRoom[roomName] = 1;
-        }else if(userRoom[roomName] <= 2){
+        }else if(userRoom[roomName] <= 3){
           userRoom[roomName]++;
         }
-
+    
+      if(userRoom[roomName]  <= 3){
         socket.to(roomName).emit('cenario', userRoom[roomName]);
-
-      if(userRoom[roomName]  < 4){
         socket.join(roomName);
         console.log(userRoom[roomName]);
         cenario = userRoom[roomName];
         socket.emit("salaEstado", "oi");
       }else{
-        socket.emit("salaEstado", -1);
+        
         console.log("sala cheia");
+        socket.emit("salaEstado", -1);
       }
     }else{
       console.log("Sala não existe");
     }
 
-    }
   
+    if(userRoom[roomName] == 3){
+        socket.to(roomName).emit('startGame', true); 
+    }
+
+    socket.on('disconnect', () => {
+        
+          userRoom[roomName]--;
+          console.log(userRoom[roomName]);
+          cenario = userRoom[roomName];
+          if(!isNaN(userRoom[roomName]))
+            socket.to(roomName).emit('cenario', userRoom[roomName]);
+          else
+            socket.to(roomName).emit('cenario', 0); 
+      });
+
+      setInterval(function(){
+        socket.emit('cenario', cenario);
+      }, 100);
+    }
+
     function handleNewGame(){
+      console.log("Novo jogo");
       let roomName = makeid(5);
        clientsRooms.push(roomName);
         socket.emit("gameCode", roomName);
@@ -87,7 +100,6 @@ io.on("connect", socket => {
     }
 
     socket.emit('arraySalas', clientsRooms);
-
 });
 
 

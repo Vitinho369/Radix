@@ -63,8 +63,15 @@ var qtdUsers = 0;
 var qtdPessoas = document.getElementById("qtdPessoas");
 
 setInterval(function () {
-    socket.on("cenario", (qtd, codeRoom) => {
+    socket.on("cenario", (qtd) => {
         qtdUsers = qtd;
     });
     qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
-}, 1000);
+}, 1);
+
+socket.on('startGame', (isStartGame) => {
+    alert(isStartGame);
+    // if(isStartGame){
+    //     window.location.href = "/game";
+    // }
+});

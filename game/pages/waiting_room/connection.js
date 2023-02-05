@@ -3,6 +3,7 @@ const socket = io();
 
 var codeRoom = window.location.toString().split("code=").pop();
 
+
 socket.emit("joinGame", codeRoom);
 
 socket.on("salaEstado", (estado)=>{
@@ -12,17 +13,27 @@ socket.on("salaEstado", (estado)=>{
             window.location.href = "/";
         }, 1000);
     }else{
-        document.getElementById("codePage").innerHTML = code;
+        document.getElementById("codePage").innerHTML = codeRoom;
     }
-})
+});
 
-//Quantidade de pessoas na sala
-var qtdUsers = 0;
-var qtdPessoas = document.getElementById("qtdPessoas");
+ //Quantidade de pessoas na sala
+ var qtdUsers = 0;
+ var qtdPessoas = document.getElementById("qtdPessoas");
 
-setInterval(function () {
-    socket.on("cenario", (qtd, codeRoom) => {
-        qtdUsers = qtd;
-    });
-    qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
-}, 1000);
+ 
+ setInterval(function () {
+     socket.on('cenario', (qtd) => {
+         qtdUsers = qtd;
+     });
+     qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
+ }, 1);
+    
+
+ socket.on('startGame', (isStartGame) => {
+    alert(isStartGame);
+    // if(isStartGame){
+    //     window.location.href = "/game";
+    // }
+});
+
