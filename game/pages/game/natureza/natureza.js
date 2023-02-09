@@ -19,6 +19,7 @@ class Natureza{
     }
 
     show() {
+        this.status = 1;
         if(this.status != 2){
             let x = width/2;
         let y = height/2+120;

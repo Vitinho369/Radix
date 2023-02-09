@@ -14,9 +14,11 @@ let song;
 let code;
 let type;
 
+let flag;
+
 function preload() {
   painel = loadImage('../../../resources/painel.png');
-  cenario = new Natureza();
+  cenario = new Emocao();
   loading = new Loading(width/2, height-200);
 
   song = loadSound('../../../resources/music.mp3');
@@ -35,29 +37,56 @@ function preload() {
 function loadCards(){
   //carrega as cartas
 
+
     socket.emit('cards',code);
   
-    socket.on('cards', (cards) => {
-      console.log(cards);
-      if(cards != "empty"){
-        for(let i = 0; i < cards.length; i++){
-          cards[i] = new Card(loadImage(cards[i]['imagem']), cards[i]['index'], cards[i]);
+    socket.on('cards', (vindo) => {
+      if(vindo != "empty"){
+        let ambiente = 0;
+        console.log(vindo[0])
+        console.log(socket.id)
+     /*   if(flag != true){
+          for(let i = 0; i < vindo[0][0].length; i++){
+            if(vindo[0][0][i] == socket.id){
+              console.log("b")
+              if(i == 0){
+                cenario = new Natureza();
+                console.log("cenario");
+              }else if(i == 1){
+                cenario = new Sociedade();
+                console.log("cenario");
+              }else if(i == 2){
+                cenario = new Emocao();
+                console.log("cenario");
+              }
+              flag = true;
+            }
+          }  
+        }*/
+
+
+        cards = []
+        for(let i = 0; i < vindo[1].length; i++){
+         // console.log(vindo[i]['imagem'])
+          cards[i] = new Card(loadImage("../../../resources/cards/" + vindo[1][i]['imagem']), vindo[1][i]['index'], vindo[1][i]);
         }
+        console.log(cards)
         vezdejogar = true;
       }else{      
         vezdejogar = false;
       }
+
+      cards = [
+        Card(loadImage("../../../resources/cards/card_abne_color.png"), 1, "1"),
+        Card(loadImage("../../../resources/cards/card_agri_color.png"), 1, "1"),
+        Card(loadImage("../../../resources/cards/card_desmate_color.png"), 1, "1"),        
+      ];
+      vezdejogar = true;
     });
+
     socket.on('cenario', function(status){
       cenario.status = status;
     });
-  
-  cards = [
-    new Card(loadImage('../../../resources/cards/card_ex.png'), 0, 0),
-    new Card(loadImage('../../../resources/cards/card_ex.png'), 1, 1),
-    new Card(loadImage('../../../resources/cards/card_ex.png'), 2, 2)    
-  ]
-  vezdejogar = true;
 }
 
 function setup() {
@@ -69,6 +98,11 @@ function draw() {
   textSize(width / 14);
   strokeWeight(0.5);
   
+  if(frameCount % 120 == 0){
+    cenario.status = (cenario.status + 1) % 3;  
+  }
+
+
   paintbackground();
   
   cenario.show();
@@ -123,9 +157,11 @@ function paintbackground(){
 
 
 function mouseClicked() {
-  for(let i = 0; i < cards.length; i++){
+
+/*  for(let i = 0; i < cards.length; i++){
     cards[i].onMouseClick();
   }
+*/
 }
 
 //classe "card", uma interface de carta com a função show (que mostra uma imagem no inferior da tela (esquerdo, centro ou direito dependendo da posição do card))
@@ -137,7 +173,7 @@ class Card {
   }
 
   show() {
-    image(this.img, width / 3 * this.pos, height - (this.img.height/1.7), width/3, width/3);
+    image(this.img, width / 3 * this.pos, height - (this.img.height/2.5), width/3, width/3);
     //ellipse abaixo da carta
     //fill(0, 0, 255);
     //ellipse(width / 3 * this.pos + width/6, height - (this.img.height/3) + width/6, (peso[0] * (width/9 - 10)), width/9);
@@ -149,15 +185,15 @@ class Card {
       //se comunica com o servidor para enviar o card clicado
       console.log("Carta jogada: " + this.card);
       
-      socket.to(code).emit('jogarCarta', this.card);
+      socket.emit('jogarCarta', this.card);
 
       socket.on('jogarCarta', function(status){
         background(255);
-
+        console.log("Status: " + status);
         //IF SATUTS = 0, JOGADOR PERDEU
         //IF STATUS = 4, JOGADOR GANHOU
         
-        cenario.status = (cenario.status + 1) % 3;  
+        //cenario.status = (cenario.status + 1) % 3;  
       });
     }
   }

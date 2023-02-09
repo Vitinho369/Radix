@@ -3,6 +3,8 @@ const app = express();
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
+let cont = 0;
+
 const port = process.env.PORT || 3000;
 const domain = require('./game/domain/domain');
 app.use(express.static(__dirname + "/"));
@@ -28,6 +30,8 @@ let cenario = 0;
 const state = {};
 const clientsRooms = [];
 const userRoom = {};
+const idUsuario = [];
+const enviaCarta = {};
 
 function makeid(length) {
   var result           = '';
@@ -40,14 +44,25 @@ function makeid(length) {
 }
 
 io.on("connect", socket => {
+
+    let clientId;
+
     socket.on('newGame', handleNewGame);
     socket.on('joinGame', handleJoinGame);
     socket.on('cards', handleCards);
+    socket.on('jogarCarta', handleJogarCarta);
+
+
+    function handleJogarCarta (carta){
+      console.log(carta )
+        domain.jogarCarta(carta);
+        console.log(domain.getClasseAtual());
+        socket.emit('jogarCarta', [domain.getClasseAtual(), domain.getJogadores()]);
+    }
 
     function handleJoinGame(roomName) {
    
       if(clientsRooms.includes(roomName)){
-
 
         if(!userRoom[roomName]){
           userRoom[roomName] = 1;
@@ -58,9 +73,12 @@ io.on("connect", socket => {
       if(userRoom[roomName]  <= 3){
         socket.to(roomName).emit('cenario', userRoom[roomName]);
         socket.join(roomName);
+        idUsuario.push(socket.id);
+        console.log(idUsuario);
         console.log(userRoom[roomName]);
         cenario = userRoom[roomName];
-        socket.emit("salaEstado", "oi");
+        cont++;
+        socket.emit("salaEstado", cont);
       }else{
         
         console.log("sala cheia");
@@ -91,13 +109,17 @@ io.on("connect", socket => {
     }
 
     function handleCards(room){
-      domain.iniciarPartida();
-      let cartas = domain.getCartas();
-      socket.emit('cards', cartas);
-    }
 
+      //if(idUsuario[socket.id] == 1){
+          domain.iniciarPartida();
+          let cartas = domain.getCartas();
+          
+          socket.emit('cards', [[clientId, enviaCarta], cartas]);  
+     // }
+      }
     function handleNewGame(){
       console.log("Novo jogo");
+      cont = 0;
       let roomName = makeid(5);
        clientsRooms.push(roomName);
         socket.emit("gameCode", roomName);

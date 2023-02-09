@@ -20,6 +20,7 @@ class Emocao {
     }
 
     show() {
+        this.status = 0;
         //coloca o corpo do personagem (dependendo do status) no centro da tela
         //cria a variaável offset para fazer a animação de bounce
         let offset = 0;

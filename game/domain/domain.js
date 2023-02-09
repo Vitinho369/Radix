@@ -7,6 +7,7 @@ escala = 60;
 let jogadores = [0, 0, 0];
 
 let deck = [];
+let cartas = [];
 
 let classes = ['natureza', 'emoção', 'sociedade'];
 let classeAtual = 0;
@@ -26,7 +27,7 @@ module.exports = {
     },
 
     getCartas: function() {
-        let cartas = [];
+        cartas = [];
         let cartasClasse = deck.filter(item => item.classe.includes(classes[classeAtual]));
 
         for(let i = 0; i < 3; i++){
@@ -44,7 +45,8 @@ module.exports = {
 
     //aplica os pesos da carta em todos os jogadores
     jogarCarta: function(carta){
-        let pesos = carta.pesos();
+        console.log(cartas[carta]);
+        let pesos = cartas[carta].pesos;
         jogadores[0] += pesos[0];
         jogadores[1] += pesos[1];
         jogadores[2] += pesos[2];
