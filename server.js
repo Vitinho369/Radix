@@ -27,11 +27,10 @@ app.get('/game', (req, res) => {
 
 let cenario = 0;
 
-const state = {};
 const clientsRooms = [];
 const userRoom = {};
 const idUsuario = [];
-const enviaCarta = {};
+let idCount = [];
 
 function makeid(length) {
   var result           = '';
@@ -51,12 +50,16 @@ io.on("connect", socket => {
     socket.on('joinGame', handleJoinGame);
     socket.on('cards', handleCards);
     socket.on('jogarCarta', handleJogarCarta);
+    socket.on('cenario', handleQtdUser);
+
+    function handleQtdUser(roomName){
+      console.log(roomName);
+      socket.emit('cenario', userRoom[roomName]);
+    }
 
 
     function handleJogarCarta (carta){
-      console.log(carta )
         domain.jogarCarta(carta);
-        console.log(domain.getClasseAtual());
         socket.emit('jogarCarta', [domain.getClasseAtual(), domain.getJogadores()]);
     }
 
@@ -74,20 +77,13 @@ io.on("connect", socket => {
         socket.to(roomName).emit('cenario', userRoom[roomName]);
         socket.join(roomName);
         idUsuario.push(socket.id);
-        console.log(idUsuario);
-        console.log(userRoom[roomName]);
         cenario = userRoom[roomName];
         cont++;
         socket.emit("salaEstado", cont);
       }else{
-        
-        console.log("sala cheia");
         socket.emit("salaEstado", -1);
       }
-    }else{
-      console.log("Sala não existe");
-    }
-
+      }
   
     if(userRoom[roomName] == 3){
       setTimeout(function(){
@@ -98,7 +94,6 @@ io.on("connect", socket => {
     socket.on('disconnect', () => {
         
           userRoom[roomName]--;
-          console.log(userRoom[roomName]);
           cenario = userRoom[roomName];
           if(!isNaN(userRoom[roomName]))
             socket.to(roomName).emit('cenario', userRoom[roomName]);
@@ -108,13 +103,24 @@ io.on("connect", socket => {
           
     }
 
-    function handleCards(room){
+    function handleCards(){
 
       //if(idUsuario[socket.id] == 1){
           domain.iniciarPartida();
           let cartas = domain.getCartas();
-          
-          socket.emit('cards', [[clientId, enviaCarta], cartas]);  
+          // socket.on("id", ()=>{
+            if(idCount  != "empty"){
+                clientId = Math.floor(Math.random() * 3);
+              while(idCount.includes(clientId)){
+                  clientId = Math.floor(Math.random() * 3);
+              }
+              idCount.push(clientId);
+            }else{
+              clientId = Math.floor(Math.random() * 3);
+              idCount.push(clientId);
+            }
+          // });
+          socket.emit('cards', [clientId, cartas]);  
      // }
       }
     function handleNewGame(){
@@ -129,9 +135,9 @@ io.on("connect", socket => {
 
     socket.emit('arraySalas', clientsRooms);
 
-      setInterval(function(){
-        socket.emit('cenario', cenario);
-      }, 100);
+       setInterval(function(){
+         socket.emit('cenario', cenario);
+       }, 100);
 });
 
 

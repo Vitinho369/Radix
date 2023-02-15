@@ -21,7 +21,10 @@ socket.on("salaEstado", (estado)=>{
  var qtdUsers = 0;
  var qtdPessoas = document.getElementById("qtdPessoas");
 
- 
+    setInterval(function(){
+        socket.emit("qtdUser", codeRoom);
+    }, 1000);
+
      socket.on('cenario', (qtd) => {
         qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtd;
          if(qtd == 3){

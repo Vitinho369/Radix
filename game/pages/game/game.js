@@ -43,34 +43,31 @@ function loadCards(){
     socket.on('cards', (vindo) => {
       if(vindo != "empty"){
         let ambiente = 0;
-        console.log(vindo[0])
+        console.table(vindo)
         console.log(socket.id)
-     /*   if(flag != true){
-          for(let i = 0; i < vindo[0][0].length; i++){
-            if(vindo[0][0][i] == socket.id){
+        socket.emit('id');
+        // if(flag != true){
+          for(let i = 0; i < vindo[1].length; i++){
+            if(vindo[i] == 0){
               console.log("b")
-              if(i == 0){
                 cenario = new Natureza();
                 console.log("cenario");
-              }else if(i == 1){
-                cenario = new Sociedade();
-                console.log("cenario");
-              }else if(i == 2){
+            }else if(vindo[i] == 1){
                 cenario = new Emocao();
                 console.log("cenario");
-              }
-              flag = true;
+            }else if(vindo[i] == 2){
+                cenario = new Sociedade();
+                console.log("cenario");
             }
-          }  
-        }*/
-
+        // }
+      }
 
         cards = []
         for(let i = 0; i < vindo[1].length; i++){
          // console.log(vindo[i]['imagem'])
           cards[i] = new Card(loadImage("../../../resources/cards/" + vindo[1][i]['imagem']), vindo[1][i]['index'], vindo[1][i]);
         }
-        console.log(cards)
+        console.table(cards)
         vezdejogar = true;
       }else{      
         vezdejogar = false;
