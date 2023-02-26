@@ -33,8 +33,8 @@ const idUsuario = [];
 let idCount = [];
 
 function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for ( var i = 0; i < length; i++ ) {
      result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -50,13 +50,12 @@ io.on("connect", socket => {
     socket.on('joinGame', handleJoinGame);
     socket.on('cards', handleCards);
     socket.on('jogarCarta', handleJogarCarta);
-    socket.on('cenario', handleQtdUser);
+    socket.on('qtdUser', handleQtdUser);
 
     function handleQtdUser(roomName){
-      console.log(roomName);
-      socket.emit('cenario', userRoom[roomName]);
+          socket.emit(roomName, userRoom[roomName]);
+          socket.broadcast.emit(roomName, userRoom[roomName]);
     }
-
 
     function handleJogarCarta (carta){
         domain.jogarCarta(carta);
@@ -77,7 +76,7 @@ io.on("connect", socket => {
         socket.to(roomName).emit('cenario', userRoom[roomName]);
         socket.join(roomName);
         idUsuario.push(socket.id);
-        cenario = userRoom[roomName];
+        // cenario = userRoom[roomName];
         cont++;
         socket.emit("salaEstado", cont);
       }else{
@@ -87,19 +86,26 @@ io.on("connect", socket => {
   
     if(userRoom[roomName] == 3){
       setTimeout(function(){
-        socket.to(roomName).emit('startGame', true);
-      },1000);
+        socket.broadcast.emit(roomName, 'startGame');
+        socket.emit(roomName, 'startGame');
+      },2000);
     }
 
-    socket.on('disconnect', () => {
+     socket.on('disconnect', () => {
+        userRoom[roomName]--;
+
+        if(userRoom[roomName] == 0){
+          delete userRoom[roomName];
+          clientsRooms.splice(clientsRooms.indexOf(roomName), 1);
+        }else
+          socket.broadcast.emit(roomName, userRoom[roomName]);
         
-          userRoom[roomName]--;
-          cenario = userRoom[roomName];
-          if(!isNaN(userRoom[roomName]))
-            socket.to(roomName).emit('cenario', userRoom[roomName]);
-          else
-            socket.to(roomName).emit('cenario', 0); 
-      });
+    //       cenario = userRoom[roomName];
+    //       if(!isNaN(userRoom[roomName]))
+    //         socket.to(roomName).emit('cenario', userRoom[roomName]);
+    //       else
+    //         socket.to(roomName).emit('cenario', 0); 
+     });
           
     }
 
@@ -109,7 +115,7 @@ io.on("connect", socket => {
           domain.iniciarPartida();
           let cartas = domain.getCartas();
           // socket.on("id", ()=>{
-            if(idCount  != "empty"){
+            if(idCount.length != 0){
                 clientId = Math.floor(Math.random() * 3);
               while(idCount.includes(clientId)){
                   clientId = Math.floor(Math.random() * 3);
@@ -120,7 +126,10 @@ io.on("connect", socket => {
               idCount.push(clientId);
             }
           // });
-          socket.emit('cards', [clientId, cartas]);  
+          socket.emit('cards', [clientId, cartas]); 
+          
+          if(idCount.length == 3)
+            idCount = [];
      // }
       }
     function handleNewGame(){
@@ -131,13 +140,12 @@ io.on("connect", socket => {
         socket.emit("gameCode", roomName);
         socket.join(roomName);
         socket.emit('cenario', cenario);
+        socket.emit('arraySalas', clientsRooms);
     }
 
-    socket.emit('arraySalas', clientsRooms);
-
-       setInterval(function(){
-         socket.emit('cenario', cenario);
-       }, 100);
+      //  setInterval(function(){
+      //    socket.emit('cenario', cenario);
+      //  }, 100);
 });
 
 

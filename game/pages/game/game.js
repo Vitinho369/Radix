@@ -20,14 +20,12 @@ function preload() {
   painel = loadImage('../../../resources/painel.png');
   cenario = new Emocao();
   loading = new Loading(width/2, height-200);
-
   song = loadSound('../../../resources/music.mp3');
 
   //pegar o codigo da sala pela url e enviar para o servidor
   var url = window.location.href;
   var urlArray = url.split("=");
   code = urlArray[1];
-  console.log(code);
 
   //se comunica ao servidor para pegar as cartas (se receber empty, não é a vez dele)
   loadCards();
@@ -36,16 +34,14 @@ function preload() {
 
 function loadCards(){
   //carrega as cartas
-
-
+  console.log("carregando cartas")
     socket.emit('cards',code);
   
     socket.on('cards', (vindo) => {
       if(vindo != "empty"){
         let ambiente = 0;
-        console.table(vindo)
-        console.log(socket.id)
-        socket.emit('id');
+        // console.table(vindo[1])
+        // socket.emit('id');
         // if(flag != true){
           for(let i = 0; i < vindo[1].length; i++){
             if(vindo[i] == 0){
@@ -74,14 +70,15 @@ function loadCards(){
       }
 
       cards = [
-        Card(loadImage("../../../resources/cards/card_abne_color.png"), 1, "1"),
-        Card(loadImage("../../../resources/cards/card_agri_color.png"), 1, "1"),
-        Card(loadImage("../../../resources/cards/card_desmate_color.png"), 1, "1"),        
+         Card(loadImage("../../../resources/cards/card_abne_color.png"), 0, "1"),
+         Card(loadImage("../../../resources/cards/card_agri_color.png"), 1, "1"),
+         Card(loadImage("../../../resources/cards/card_desmate_color.png"), 2, "1"),        
       ];
       vezdejogar = true;
     });
 
     socket.on('cenario', function(status){
+      console.log(cenario.status)
       cenario.status = status;
     });
 }

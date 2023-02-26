@@ -4,6 +4,7 @@ const socket = io();
 socket.emit("newGame");
 
 
+var arraySalas1 = [];
 socket.on("gameCode", (code) => {
     
 var codeRoom = 0;
@@ -31,53 +32,46 @@ var codeRoom = 0;
     socket.emit("joinGame", code);
 
 //Acessar sala
-var arraySalas1 = [];
 socket.on("arraySalas", (arraySalas) => {
     arraySalas1 = arraySalas;
+});
+
+// setInterval(() => {
+socket.emit("qtdUser", code);
+// }, 1); 
+
+//Quantidade de pessoas na sala
+var qtdPessoas = document.getElementById("qtdPessoas");
+
+socket.on(code, (qtd) => {
+    if(typeof(qtd) === 'number')
+        qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtd;
+    else if (qtd == 'startGame')
+        window.location.href = "/game" + "?code=" + code;
+ });
+
+// qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
 
 });
+
 
 function acessarLink() {
     var code = document.getElementById("codegameinput").value;
     var acheiSala = false;
-
+    console.log(arraySalas1);
     if (arraySalas1.includes(code)) {
-        document.getElementById("EnterGame").addEventListener("click", function () {
-            let code = document.getElementById("codegameinput").value;
-            socket.emit('joinGame', code);
-
+        // document.getElementById("EnterGame").addEventListener("click", function () {
+            let codeInput = document.getElementById("codegameinput").value;
+            socket.emit('joinGame', codeInput);
+            acheiSala = true;
             var url = window.location.pathname.split('index.html');
             var namePage = url.pop();
-            url += '/waiting';
+            url += '/waiting';  
             window.location.href = url + "?code=" + code;
-            acheiSala = true;
-            console.log("entrei na sala:");
-        });
+        // });
     }
 
     if (acheiSala == false) {
         document.querySelector('.errorMessage').innerHTML = "Sala não encontrada";
     }
 }
-
-
-//Quantidade de pessoas na sala
-var qtdUsers = 0;
-var qtdPessoas = document.getElementById("qtdPessoas");
-
-setInterval(function () {
-    socket.on("cenario", (qtd) => {
-        qtdUsers = qtd;
-        
-    });
-    qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtdUsers;
-}, 1);
-
-socket.on('startGame', () => {
-    
-    setTimeout(function(){
-         window.location.href = "/game" + "?code=" + code;
-        }, 1000);
-});
-
-});

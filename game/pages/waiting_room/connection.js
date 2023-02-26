@@ -21,15 +21,17 @@ socket.on("salaEstado", (estado)=>{
  var qtdUsers = 0;
  var qtdPessoas = document.getElementById("qtdPessoas");
 
-    setInterval(function(){
-        socket.emit("qtdUser", codeRoom);
-    }, 1000);
 
-     socket.on('cenario', (qtd) => {
-        qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtd;
-         if(qtd == 3){
-            setTimeout(function(){
-                window.location.href = "/game" + "?code=" + codeRoom;
-            }, 1000);
-        }
+    socket.emit("qtdUser", codeRoom);
+
+     socket.on(codeRoom, (qtd) => {
+        if(typeof(qtd) === 'number')
+            qtdPessoas.innerHTML = "Quantidade de pessoas na sala: " + qtd;
+        else if(qtd == 'startGame')
+            window.location.href = "/game" + "?code=" + codeRoom;
+            //  if(qtd == 3){
+        //     setTimeout(function(){
+        //         window.location.href = "/game" + "?code=" + codeRoom;
+        //     }, 1000);
+        // }
      });
